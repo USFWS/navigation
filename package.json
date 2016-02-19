@@ -3,18 +3,24 @@
   "version": "1.0.0",
   "description": "A responsive, nested navigation module",
   "main": "index.js",
+  "watch": {
+    "htmlmin": "src/index.html"
+  },
   "scripts": {
+    "watch": "npm-watch",
     "pretest": "npm run lint --silent",
     "test": "karma start",
     "lint": "jshint --reporter=node_modules/jshint-stylish src/**/*.js",
-    "watch:sass": "node-sass -w src/scss/main.scss dist/css/main.css",
-    "build:sass": "node-sass --output-style compressed src/scss/main.scss dist/css/main.css",
-    "browserify": "browserify -t jadeify src/js/index.js | uglifyjs -mc > dist/js/bundle.js",
-    "watchify": "watchify -t jadeify src/js/index.js -o dist/js/bundle.js -dv",
-    "mkdist": "node build/create-dist",
+    "watch:sass": "node-sass -w src/scss/styles.scss dist/css/menu.css",
+    "build:sass": "node-sass --output-style compressed src/scss/main.scss dist/css/menu.css",
+    "browserify": "browserify src/js/index.js | uglifyjs -mc > dist/js/menu.js",
+    "watchify": "watchify src/js/index.js -o dist/js/menu.js -dv",
     "htmlmin": "htmlmin -o dist/index.html src/index.html",
     "serve": "browser-sync start --server dist --files 'dist/**/*'",
+    "mkdist": "node build/create-dist",
+    "prebuild": "npm run mkdist",
     "build": "npm run build:sass & npm run browserify",
+    "prestart": "npm run mkdist",
     "start": "npm run watch & npm run htmlmin & npm run watch:sass & npm run watchify & npm run serve",
     "inspect:bundle": "browserify -t jadeify --full-paths src/js/index.js | uglifyjs -mc | Discify --open",
     "publish:demo": "npm run build && gh-pages -d dist"
@@ -48,7 +54,11 @@
     "karma-mocha": "^0.2.2",
     "karma-mocha-reporter": "^1.2.0",
     "karma-safari-launcher": "^0.1.1",
+    "mkdirp": "^0.5.1",
     "mocha": "^2.4.5",
     "watchify": "^3.7.0"
+  },
+  "dependencies": {
+    "lodash.defaults": "^4.0.1"
   }
 }
