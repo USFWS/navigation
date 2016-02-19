@@ -1,0 +1,54 @@
+{
+  "name": "fws-navigation",
+  "version": "1.0.0",
+  "description": "A responsive, nested navigation module",
+  "main": "index.js",
+  "scripts": {
+    "pretest": "npm run lint --silent",
+    "test": "karma start",
+    "lint": "jshint --reporter=node_modules/jshint-stylish src/**/*.js",
+    "watch:sass": "node-sass -w src/scss/main.scss dist/css/main.css",
+    "build:sass": "node-sass --output-style compressed src/scss/main.scss dist/css/main.css",
+    "browserify": "browserify -t jadeify src/js/index.js | uglifyjs -mc > dist/js/bundle.js",
+    "watchify": "watchify -t jadeify src/js/index.js -o dist/js/bundle.js -dv",
+    "mkdist": "node build/create-dist",
+    "htmlmin": "htmlmin -o dist/index.html src/index.html",
+    "serve": "browser-sync start --server dist --files 'dist/**/*'",
+    "build": "npm run build:sass & npm run browserify",
+    "start": "npm run watch & npm run htmlmin & npm run watch:sass & npm run watchify & npm run serve",
+    "inspect:bundle": "browserify -t jadeify --full-paths src/js/index.js | uglifyjs -mc | Discify --open",
+    "publish:demo": "npm run build && gh-pages -d dist"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/USFWS/navigation.git"
+  },
+  "keywords": [
+    "USFWS",
+    "Navigation",
+    "Responsive"
+  ],
+  "author": "@r0yhewitt",
+  "license": "SAX-PD",
+  "bugs": {
+    "url": "https://github.com/USFWS/navigation/issues"
+  },
+  "homepage": "https://github.com/USFWS/navigation#readme",
+  "devDependencies": {
+    "browser-sync": "^2.11.1",
+    "browserify": "^13.0.0",
+    "chai": "^3.5.0",
+    "html-minifier-cli": "^0.1.0",
+    "jshint": "^2.9.1",
+    "jshint-stylish": "^2.1.0",
+    "karma": "^0.13.21",
+    "karma-browserify": "^5.0.1",
+    "karma-chrome-launcher": "^0.2.2",
+    "karma-firefox-launcher": "^0.1.7",
+    "karma-mocha": "^0.2.2",
+    "karma-mocha-reporter": "^1.2.0",
+    "karma-safari-launcher": "^0.1.1",
+    "mocha": "^2.4.5",
+    "watchify": "^3.7.0"
+  }
+}
