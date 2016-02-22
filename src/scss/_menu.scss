@@ -1,0 +1,24 @@
+.fws-menu {
+  background: $teal;
+  color: $white;
+  font-family: $font;
+  list-style: none;
+  margin: 0;
+  padding: 40px 0 0;
+
+  li {
+    height: 30px;
+  }
+
+  @media (min-width: $break-lg) {
+    max-width: 450px;
+  }
+}
+
+.menu-hidden {
+  transform: translateX(100%);
+}
+
+.move-out {
+  transform: translateX(-100%);
+}

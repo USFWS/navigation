@@ -1,0 +1,18 @@
+@import 'fonts';
+@import 'variables';
+
+html {
+  box-sizing: border-box;
+}
+
+* {
+  box-sizing: inherit;
+
+  &::after,
+  &::before {
+    box-sizing: inherit;
+  }
+}
+
+@import 'position';
+@import 'menu';

@@ -1,0 +1,51 @@
+.fws-menu {
+  overflow-y: scroll;
+  position: fixed;
+  transition: all .3s;
+  width: 100%;
+  z-index: 2;
+
+  &.menu-left {
+    bottom: 0;
+    left: 0;
+    top: 0;
+    transform: translateX(-100%);
+
+    &.active {
+      transform: translateX(0);
+    }
+  }
+
+  &.menu-right {
+    bottom: 0;
+    right: 0;
+    top: 0;
+    transform: translateX(100%);
+
+    &.active {
+      transform: translateX(0);
+    }
+  }
+
+  &.menu-bottom {
+    bottom: 0;
+    left: 0;
+    top: 0;
+    transform: translateY(100%);
+
+    &.active {
+      transform: translateY(0);
+    }
+  }
+
+  &.menu-top {
+    bottom: 0;
+    right: 0;
+    top: 0;
+    transform: translateY(-100%);
+
+    &.active {
+      transform: translateY(0);
+    }
+  }
+}
