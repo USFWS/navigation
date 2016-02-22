@@ -4,12 +4,14 @@
   "description": "A responsive, nested navigation module",
   "main": "index.js",
   "watch": {
-    "htmlmin": "src/index.html"
+    "htmlmin": "src/index.html",
+    "fonts": "src/fonts/*"
   },
   "scripts": {
     "watch": "npm-watch",
     "pretest": "npm run lint --silent",
     "test": "karma start",
+    "fonts": "ncp src/fonts dist/fonts",
     "lint": "jshint --reporter=node_modules/jshint-stylish src/**/*.js",
     "watch:sass": "node-sass -w src/scss/styles.scss dist/css/menu.css",
     "build:sass": "node-sass --output-style compressed src/scss/main.scss dist/css/menu.css",
@@ -56,9 +58,11 @@
     "karma-safari-launcher": "^0.1.1",
     "mkdirp": "^0.5.1",
     "mocha": "^2.4.5",
+    "ncp": "^2.0.0",
     "watchify": "^3.7.0"
   },
   "dependencies": {
+    "is-dom": "^1.0.5",
     "lodash.defaults": "^4.0.1"
   }
 }
