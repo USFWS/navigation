@@ -24,7 +24,7 @@
     "build": "npm run build:sass & npm run browserify",
     "prestart": "npm run mkdist",
     "start": "npm run watch & npm run htmlmin & npm run watch:sass & npm run watchify & npm run serve",
-    "inspect:bundle": "browserify -t jadeify --full-paths src/js/index.js | uglifyjs -mc | Discify --open",
+    "inspect:bundle": "browserify --full-paths src/js/index.js | uglifyjs -mc | Discify --open",
     "publish:demo": "npm run build && gh-pages -d dist"
   },
   "repository": {
@@ -63,6 +63,7 @@
   },
   "dependencies": {
     "is-dom": "^1.0.5",
-    "lodash.defaults": "^4.0.1"
+    "lodash.defaults": "^4.0.1",
+    "parent-node-selector": "^0.1.1"
   }
 }
