@@ -5,6 +5,8 @@
 
     isDom: require('is-dom'),
 
+    closest: require('parent-node-selector'),
+
 		get: function (id) {
 			return typeof id === 'string' ? document.getElementById(id) : id;
 		},
