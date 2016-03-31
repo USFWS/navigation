@@ -17,3 +17,19 @@ html {
 
 @import 'position';
 @import 'menu';
+
+.menu-toggle {
+  background: lighten($teal, 10);
+  border: 3px solid $teal;
+  border-radius: 5px;
+  color: white;
+  cursor: pointer;
+  font-size: 3em;
+  padding: 7px;
+  transition: all .3s;
+
+  &:hover {
+    background: $teal;
+    border: 3px solid lighten($teal, 10);
+  }
+}
