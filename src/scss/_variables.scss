@@ -1,8 +1,16 @@
 // Breakpoints
 $break-lg: 900px;
 
+// Max width when nav is docked
+$docked-width: 400px;
+
 // Colors
 $teal: #00796b;
+$light-green: lighten($teal, 25);
 $white: #fff;
+$dark-grey: #444;
+
 // Fonts
 $font: 'Droid Sans', Helvetica, 'Helvetica Neue', Arial, sans-serif;
+
+$transition-duration: .3s;

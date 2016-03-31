@@ -1,9 +1,5 @@
 .fws-menu {
-  overflow-y: scroll;
   position: fixed;
-  transition: all .3s;
-  width: 100%;
-  z-index: 2;
 
   &.menu-left {
     bottom: 0;
@@ -11,8 +7,40 @@
     top: 0;
     transform: translateX(-100%);
 
-    &.active {
+    .fws-menu-close {
+      left: 3px;
+    }
+
+    &.fws-menu-active {
       transform: translateX(0);
+    }
+
+    .sub-menu {
+
+      &.move-out {
+        > li > a {
+          transform: translateX(-100%);
+        }
+      }
+
+      &.menu-hidden {
+        opacity: 0;
+        transform: translateX(-100%);
+      }
+
+      .back-block {
+        right: -50px;
+      }
+
+      @media (min-width: $break-lg) {
+        right: 50px;
+      }
+    }
+
+    @media (min-width: $break-lg) {
+      .move-out {
+        transform: translateX(50px);
+      }
     }
   }
 
@@ -22,30 +50,40 @@
     top: 0;
     transform: translateX(100%);
 
-    &.active {
+    .fws-menu-close {
+      right: 3px;
+    }
+
+    &.fws-menu-active {
       transform: translateX(0);
     }
-  }
 
-  &.menu-bottom {
-    bottom: 0;
-    left: 0;
-    top: 0;
-    transform: translateY(100%);
+    .sub-menu {
 
-    &.active {
-      transform: translateY(0);
+      &.move-out {
+        > li > a {
+          transform: translateX(100%);
+        }
+      }
+
+      &.menu-hidden {
+        opacity: 0;
+        transform: translateX(100%);
+      }
+
+      .back-block {
+        left: -50px;
+      }
+
+      @media (min-width: $break-lg) {
+        left: 50px;
+      }
     }
-  }
 
-  &.menu-top {
-    bottom: 0;
-    right: 0;
-    top: 0;
-    transform: translateY(-100%);
-
-    &.active {
-      transform: translateY(0);
+    @media (min-width: $break-lg) {
+      .move-out {
+        transform: translateX(-50px);
+      }
     }
   }
 }
