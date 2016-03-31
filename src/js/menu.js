@@ -54,26 +54,39 @@
     });
   }
 
-  // Adds a "back" list item to the top of each sub menu-back
-  // Adds a click target overlapping the sliver showing from the parent menu
-  function _addBackListItem(submenu) {
-    var firstLi = submenu.querySelector('li');
-    var li = _.create('li');
+  // Back block is a list item that overlaps the sliver of the visible parent menu
+  function _createBackBlock() {
     var backBlock = _.create('li', 'menu-back back-block');
     backBlock.innerHTML = 'Back';
+    return backBlock;
+  }
+
+  // Creates a list item to appear at the top of each submenu
+  function _createBackListItem() {
+    var li = _.create('li');
     var a = _.create('a', 'menu-back', li);
     a.innerHTML = 'Back';
     a.setAttribute('href', '#back');
+    return li;
+  }
+
+  // Insert a list item at the top and bottom of each sub menu to go back to the parent menu
+  function _addBackListItem(submenu) {
+    var firstLi = submenu.querySelector('li');
+    var li = _createBackListItem();
+    var backBlock = _createBackBlock();
     submenu.insertBefore(li, firstLi);
     submenu.appendChild(backBlock);
   }
 
+  // Disable all anchors with tabindex = -1, then re-enable only the current menu's anchors
   function _updateMenuAnchors() {
     var activeMenu = options.menu.querySelector('.menu-active');
     _disableAllMenuAchors();
     _enableActiveMenuAnchors(activeMenu);
   }
 
+  // Elements with tabindex = -1 are skipped when tabbing through focusable elements
   function _disableAllMenuAchors() {
     var allAnchors = options.menu.querySelectorAll('a');
     _.each(allAnchors, function (link) {
@@ -81,6 +94,7 @@
     });
   }
 
+  // Elements with tabindex = 0 will be tabbed through in the order that they appear in the markup
   function _enableActiveMenuAnchors(menu) {
     var anchors = _findActiveMenuAnchors(menu);
     _.each(anchors, function(anchor) {
@@ -88,6 +102,7 @@
     });
   }
 
+  // Returns a list of the anchors in the currently active menu
   function _findActiveMenuAnchors(menu) {
     var children = menu.children;
     var anchors = [];
@@ -100,29 +115,34 @@
     return anchors;
   }
 
+  // Move the parent menu out of view
   function _moveOutParentMenu(el) {
     var parentMenu = _.closest(el, 'ul');
     _.addClass(parentMenu, 'move-out');
     _.removeClass(parentMenu, 'menu-active');
   }
 
+  // Bring the parent menu back into view
   function _showParentMenu(el) {
     el.querySelector('a').focus();
     _.removeClass(el, 'move-out');
     _.addClass(el, 'menu-active');
   }
 
+  // Move the submenu out of view
   function _moveOutSubMenu(el) {
     _.addClass(el, 'menu-hidden');
     _.removeClass(el, 'menu-active');
   }
 
+  // Move the submenu into view
   function _showSubMenu(el) {
     el.querySelector('a').focus();
     _.addClass(el, 'menu-active');
     _.removeClass(el, 'menu-hidden');
   }
 
+  // Open a submenu
   function _openSubMenu(e) {
     if ( _.hasClass(e.target.parentNode, 'has-children') ) {
       var submenu = e.target.parentNode.querySelector('ul');
@@ -148,12 +168,14 @@
     _updateMenuAnchors();
   }
 
-  // Should be called when you hit the close or toggle button
+  // Restore the navigation menu back to it's initial state
   function _closeAllSubMenus() {
     _.each(options.menu.querySelectorAll('.sub-menu'), _closeSubMenu);
   }
 
+  // Handle keyboard input
   function _keyHandler(e) {
+    // Close the menu on Escape
     if ( options.active && e.keyCode === 27 ) hide();
   }
 
@@ -181,6 +203,7 @@
     _closeAllSubMenus();
   }
 
+  // Make sure the menu is instantiated with a valid position
   function _checkForValidPosition() {
     var validPositions = ['left', 'right'];
     if (validPositions.indexOf(options.position) >= 0)
