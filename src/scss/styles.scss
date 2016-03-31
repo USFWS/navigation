@@ -15,8 +15,12 @@ html {
   }
 }
 
-@import 'position';
 @import 'menu';
+
+.content {
+  margin: auto;
+  max-width: 900px;
+}
 
 .menu-toggle {
   background: lighten($teal, 10);
