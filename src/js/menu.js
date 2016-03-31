@@ -12,7 +12,8 @@
     navClass: 'fws-menu',
     toggleClass: 'menu-toggle',
     subMenuClass: 'sub-menu',
-    activeClass: 'fws-menu-active'
+    activeClass: 'fws-menu-active',
+    rootUlClass: 'fws-menu-content'
   };
 
   function init(opts) {
@@ -22,6 +23,7 @@
     options.close = _.create('button', 'fws-menu-close', options.menu);
     options.close.innerHTML = '&times;';
     options.menu.setAttribute('role', 'navigation');
+    _.addClass(options.menu.querySelector('ul'), options.rootUlClass);
     _checkForValidPosition();
     _processSubMenus();
     _registerHandlers();
@@ -146,7 +148,6 @@
     if ( !_.hasClass(e.target.parentNode, 'has-children') ) return;
     var submenu = e.target.parentNode.querySelector('ul');
     var parentMenu = _.closest(e.target, 'ul');
-    console.log(parentMenu);
     _openSubMenu(parentMenu, submenu);
   }
 
@@ -166,6 +167,10 @@
   }
 
   function _closeSubMenu(menu) {
+    if ( _.hasClass(menu, options.rootUlClass) ) {
+      hide();
+      return;
+    }
     var parentMenu = _.closest(menu, 'ul.move-out');
     _moveOutSubMenu(menu);
     _showParentMenu(parentMenu);
@@ -181,7 +186,6 @@
   function _keyHandler(e) {
     if ( options.active ) {
       var parentMenu, subMenu, currentMenu;
-      // console.log('Keycode: ' + e.keyCode);
       // Close the menu on Escape
       if ( e.keyCode === 27 ) hide();
       // Move down the list of tabbable elements when the user presses the down key
@@ -189,11 +193,8 @@
       // Move up the list of tabbable elements when the user presses the up key
       if ( e.keyCode === 38 ) _goToTabbableElement('last');
       // Close the currently open submenu when the users presses the left key
-      if ( e.keyCode === 37 ) {
-        currentMenu = options.menu.querySelector('.menu-active');
-        _closeSubMenu(currentMenu);
-      }
-      // Right: 39
+      if ( e.keyCode === 37 ) _closeSubMenu(options.menu.querySelector('.menu-active'));
+      // Open the submenu if the currently focused element is associated w/a sub menu
       if ( e.keyCode === 39 && _.hasClass(e.target.parentNode, 'has-children') ) {
         parentMenu = _.closest(e.target, 'ul');
         subMenu = e.target.parentNode.querySelector('ul');
@@ -233,7 +234,7 @@
 
   function show() {
     options.active = true;
-    var content = options.menu.querySelector('.fws-menu-content');
+    var content = options.menu.querySelector('.' + options.rootUlClass);
     _.addClass(options.menu, options.activeClass);
     _.addClass(content, 'menu-active');
     _updateMenuAnchors();
@@ -241,7 +242,7 @@
 
   function hide() {
     options.active = false;
-    var content = options.menu.querySelector('.fws-menu-content');
+    var content = options.menu.querySelector('.' + options.rootUlClass);
     _.removeClass(options.menu, options.activeClass);
     _.removeClass(content, 'menu-active');
     _closeAllSubMenus();
