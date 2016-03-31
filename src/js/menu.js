@@ -21,6 +21,7 @@
     if (options.active) _.addClass(options.menu, options.activeClass);
     options.close = _.create('button', 'fws-menu-close', options.menu);
     options.close.innerHTML = '&times;';
+    options.menu.setAttribute('role', 'navigation');
     _checkForValidPosition();
     _processSubMenus();
     _registerHandlers();
@@ -29,7 +30,7 @@
   function _registerHandlers() {
     document.body.addEventListener('click', _toggleMenu);
     document.body.addEventListener('keyup', _keyHandler);
-    options.menu.addEventListener('click', _openSubMenu);
+    options.menu.addEventListener('click', _openSubMenuHandler);
     options.menu.addEventListener('click', _closeSubMenuHandler);
     options.close.addEventListener('click', hide);
   }
@@ -37,7 +38,7 @@
   function destroy() {
     document.body.removeEventListener('click', _toggleMenu);
     document.body.removeEventListener('keyup', _keyHandler);
-    options.menu.removeEventListener('click', _openSubMenu);
+    options.menu.removeEventListener('click', _openSubMenuHandler);
     options.menu.removeEventListener('click', _closeSubMenuHandler);
     options.close.removeEventListener('click', hide);
   }
@@ -116,10 +117,9 @@
   }
 
   // Move the parent menu out of view
-  function _moveOutParentMenu(el) {
-    var parentMenu = _.closest(el, 'ul');
-    _.addClass(parentMenu, 'move-out');
-    _.removeClass(parentMenu, 'menu-active');
+  function _moveOutParentMenu(menu) {
+    _.addClass(menu, 'move-out');
+    _.removeClass(menu, 'menu-active');
   }
 
   // Bring the parent menu back into view
@@ -142,28 +142,32 @@
     _.removeClass(el, 'menu-hidden');
   }
 
+  function _openSubMenuHandler(e) {
+    if ( !_.hasClass(e.target.parentNode, 'has-children') ) return;
+    var submenu = e.target.parentNode.querySelector('ul');
+    var parentMenu = _.closest(e.target, 'ul');
+    console.log(parentMenu);
+    _openSubMenu(parentMenu, submenu);
+  }
+
   // Open a submenu
-  function _openSubMenu(e) {
-    if ( _.hasClass(e.target.parentNode, 'has-children') ) {
-      var submenu = e.target.parentNode.querySelector('ul');
-      if ( !_.isDom(submenu) ) return;
-      _moveOutParentMenu(e.target);
-      _showSubMenu(submenu);
-      _updateMenuAnchors();
-    }
+  function _openSubMenu(parentMenu, submenu) {
+    _moveOutParentMenu(parentMenu);
+    _showSubMenu(submenu);
+    _updateMenuAnchors();
   }
 
   function _closeSubMenuHandler(e) {
     if ( _.hasClass(e.target, 'menu-back') ) {
       e.preventDefault();
-      _closeSubMenu(e.target);
+      var nearestUl = _.closest(e.target, 'ul');
+      _closeSubMenu(nearestUl);
     }
   }
 
-  function _closeSubMenu(el) {
-    var nearestUl = _.closest(el, 'ul');
-    var parentMenu = _.closest(nearestUl, 'ul.move-out');
-    _moveOutSubMenu(nearestUl);
+  function _closeSubMenu(menu) {
+    var parentMenu = _.closest(menu, 'ul.move-out');
+    _moveOutSubMenu(menu);
     _showParentMenu(parentMenu);
     _updateMenuAnchors();
   }
@@ -175,8 +179,48 @@
 
   // Handle keyboard input
   function _keyHandler(e) {
-    // Close the menu on Escape
-    if ( options.active && e.keyCode === 27 ) hide();
+    if ( options.active ) {
+      var parentMenu, subMenu, currentMenu;
+      // console.log('Keycode: ' + e.keyCode);
+      // Close the menu on Escape
+      if ( e.keyCode === 27 ) hide();
+      // Move down the list of tabbable elements when the user presses the down key
+      if ( e.keyCode === 40 ) _goToTabbableElement('next');
+      // Move up the list of tabbable elements when the user presses the up key
+      if ( e.keyCode === 38 ) _goToTabbableElement('last');
+      // Close the currently open submenu when the users presses the left key
+      if ( e.keyCode === 37 ) {
+        currentMenu = options.menu.querySelector('.menu-active');
+        _closeSubMenu(currentMenu);
+      }
+      // Right: 39
+      if ( e.keyCode === 39 && _.hasClass(e.target.parentNode, 'has-children') ) {
+        parentMenu = _.closest(e.target, 'ul');
+        subMenu = e.target.parentNode.querySelector('ul');
+        _openSubMenu(parentMenu, subMenu);
+      }
+    } else return;
+  }
+
+  function _goToTabbableElement(direction) {
+    var tabbable = _.tabbable(options.menu);
+    var index, modifier;
+    if (direction === 'next') modifier = 1;
+    else if (direction === 'last') modifier = -1;
+    else throw new Error('Direction for _goToTabbableElement must be \'next\' or \'last\'.');
+
+    // If the toggle button is focused right now, focus on the first focusable element in the menu
+    if ( _.hasClass(document.activeElement, options.toggleClass) ) {
+      tabbable[0].focus();
+      return;
+    }
+    _.each(tabbable, function (el, i) {
+      if ( document.activeElement === el ) index = i + modifier;
+    });
+
+    if (index === -1) index = 0; // Don't go further than the first element
+    else if (index === tabbable.length) index = index -1; // Don't go further than the last element
+    tabbable[index].focus();
   }
 
   function _toggleMenu(e) {
