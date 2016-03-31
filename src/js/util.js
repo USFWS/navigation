@@ -6,6 +6,7 @@
     each: require('lodash.foreach'),
     closest: require('parent-node-selector'),
     isDom: require('is-dom'),
+    tabbable: require('tabbable'),
     find: find,
     get: get,
     getStyle: getStyle,
