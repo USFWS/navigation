@@ -19,6 +19,7 @@
   function init(opts) {
     options = _.defaults({}, opts, defaults);
     options.menu = _.find(options.menu);
+    options.search = options.menu.querySelector('input[type=search]');
     if (options.active) _.addClass(options.menu, options.activeClass);
     options.close = _.create('button', 'fws-menu-close', options.menu);
     options.close.innerHTML = '&times;';
@@ -228,6 +229,15 @@
     if ( _.hasClass(e.target, options.toggleClass) ) toggle();
   }
 
+  function toggleSearch() {
+    if (!options.active) {
+      show();
+      setTimeout(function () {
+        options.search.focus();
+      }, 400);
+    }
+  }
+
   function toggle() {
     options.active ? hide() : show(); //jshint ignore:line
   }
@@ -262,4 +272,5 @@
   module.exports.show    = show;
   module.exports.hide    = hide;
   module.exports.destroy = destroy;
+  module.exports.toggleSearch = toggleSearch;
 })();
