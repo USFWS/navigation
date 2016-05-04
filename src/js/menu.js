@@ -127,9 +127,9 @@
 
   // Bring the parent menu back into view
   function _showParentMenu(el) {
-    el.querySelector('a').focus();
     _.removeClass(el, 'move-out');
     _.addClass(el, 'menu-active');
+    el.querySelector('a').focus();
   }
 
   // Move the submenu out of view
@@ -140,13 +140,14 @@
 
   // Move the submenu into view
   function _showSubMenu(el) {
-    el.querySelector('a').focus();
     _.addClass(el, 'menu-active');
     _.removeClass(el, 'menu-hidden');
+    el.querySelector('a').focus();
   }
 
   function _openSubMenuHandler(e) {
-    if ( !_.hasClass(e.target.parentNode, 'has-children') ) return;
+    if ( e.target.nodeName === 'UL' ) return; // Don't toggle submenu if you click on the UL rather than an LI
+    if ( !_.hasClass(e.target.parentNode, 'has-children') ) return; // Make sure there IS a submenu
     var submenu = e.target.parentNode.querySelector('ul');
     var parentMenu = _.closest(e.target, 'ul');
     _openSubMenu(parentMenu, submenu);
@@ -168,10 +169,6 @@
   }
 
   function _closeSubMenu(menu) {
-    if ( _.hasClass(menu, options.rootUlClass) ) {
-      hide();
-      return;
-    }
     var parentMenu = _.closest(menu, 'ul.move-out');
     _moveOutSubMenu(menu);
     _showParentMenu(parentMenu);
