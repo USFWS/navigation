@@ -1,1 +1,63 @@
-<!DOCTYPE html><html lang=en_US><head><meta charset=utf-8><meta http-equiv=x-ua-compatible content="ie=edge"><title>Responsive Navigation</title><meta name=description content="A responsive, nested navigation component"><meta name=viewport content="width=device-width, initial-scale=1"><link rel=stylesheet href=./css/menu.css><body><div class=content><button class=menu-toggle>Menu</button><nav class=fws-menu><ul><li><a href=#list-item-1>List item 1</a></li><li><a href=#list-item-2>List item 2</a></li><li><a href=#list-item-3>List item 3</a><ul><li><a href=#sub-menu-1>Sub menu 1</a></li><li><a href=#sub-menu-2>Sub menu 2</a></li><li><a href=#sub-menu-3>Sub menu 3</a><ul><li><a href=#sub-sub-menu-1>Sub sub menu 1</a></li><li><a href=#sub-sub-menu-2>Sub sub menu 2</a></li><li><a href=#sub-sub-menu-3>Sub sub menu 3</a></li></ul></li></ul></li><li><a href=#list-item-4>List item 4</a></li><li><a href=#list-item-5>List item 5</a></li></ul></nav><h1>Responsive Navigation</h1><h2>Features</h2><ul><li>Mark up your navigation with standard unordered lists</li><li>Supports unlimited sub-menus</li><li>Off-canvas navigation menu saves screen real estate</li><li>Configurable to appear on left or right side on larger screens</li><li>Automatically resets to initial state when closed</li><li>Automatically injects list items for navigating between submenus</li><li>Support for keyboard interaction<ul><li>When the menu is open press escape to close the menu</li><li>Up key: focus the last tabbable element</li><li>Down key: focus the nextx tabbable element</li><li>Left key: Close the current submenu, or the whole menu if you're on the root ul element</li><li>Right key: If the currently focused element contains a submenu, activate that submenu</li><li>Automatically manages tabindex which prevents you from tabbing into a hidden menu</li></ul></li></ul><h2>Credit</h2><p>This navigation menu was inspired by <a href="https://codyhouse.co/gem/mega-dropdown/">codyhouse.co's Mega Dropdown</a>.</p></div><script src=./js/menu.js></script>
+<!doctype html>
+<html lang="en_US">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>Responsive Navigation</title>
+    <meta name="description" content="A responsive, nested navigation component">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="./menu.css">
+  </head>
+  <body>
+    <div class="content">
+      <button class="menu-toggle">Menu</button>
+      <nav class="fws-menu">
+        <ul>
+          <li><a href="#list-item-1">List item 1</a></li>
+          <li><a href="#list-item-2">List item 2</a></li>
+          <li><a href="#list-item-3">List item 3</a>
+            <ul>
+              <li><a href="#sub-menu-1">Sub menu 1</a></li>
+              <li><a href="#sub-menu-2">Sub menu 2</a></li>
+              <li><a href="#sub-menu-3">Sub menu 3</a>
+                <ul>
+                  <li><a href="#sub-sub-menu-1">Sub sub menu 1</a></li>
+                  <li><a href="#sub-sub-menu-2">Sub sub menu 2</a></li>
+                  <li><a href="#sub-sub-menu-3">Sub sub menu 3</a></li>
+                </ul>
+              </li>
+            </ul>
+          </li>
+          <li><a href="#list-item-4">List item 4</a></li>
+          <li><a href="#list-item-5">List item 5</a></li>
+        </ul>
+      </nav>
+      <h1>Responsive Navigation</h1>
+
+      <h2>Features</h2>
+      <ul>
+        <li>Mark up your navigation with standard unordered lists</li>
+        <li>Supports unlimited sub-menus</li>
+        <li>Off-canvas navigation menu saves screen real estate</li>
+        <li>Configurable to appear on left or right side on larger screens</li>
+        <li>Automatically resets to initial state when closed</li>
+        <li>Automatically injects list items for navigating between submenus</li>
+        <li>Support for keyboard interaction
+          <ul>
+            <li>When the menu is open press escape to close the menu</li>
+            <li>Up key: focus the last tabbable element</li>
+            <li>Down key: focus the nextx tabbable element</li>
+            <li>Left key: Close the current submenu, or the whole menu if you're on the root ul element</li>
+            <li>Right key: If the currently focused element contains a submenu, activate that submenu</li>
+            <li>Automatically manages tabindex which prevents you from tabbing into a hidden menu</li>
+          </ul>
+        </li>
+      </ul>
+
+      <h2>Credit</h2>
+      <p>This navigation menu was inspired by <a href="https://codyhouse.co/gem/mega-dropdown/">codyhouse.co's Mega Dropdown</a>.</p>
+    </div>
+
+    <script src="./bundle.js"></script>
+  </body>
+</html>
