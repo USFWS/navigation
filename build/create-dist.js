@@ -3,7 +3,7 @@
 
   var mkdirp = require('mkdirp');
 
-  var directories = ['dist/js', 'dist/css'];
+  var directories = ['dist', 'example/js'];
 
   directories.forEach(function (path) {
     mkdirp(path, function (err) {
