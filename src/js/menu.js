@@ -50,7 +50,7 @@
     var menu = options.menu.querySelector('ul');
     var submenus = menu.querySelectorAll('ul');
     _.each(submenus, function (submenu) {
-      var parentLi = _.closest(submenu, 'li');
+      var parentLi = _.closest('li', submenu);
       _.addClass(parentLi, 'has-children');
       _.removeClass(submenu, 'move-out');
       _.addClass(submenu, options.subMenuClass + ' menu-hidden');
@@ -87,7 +87,7 @@
   function _updateMenuAnchors() {
     var activeMenu = options.menu.querySelector('.menu-active');
     _disableAllMenuAchors();
-    _enableActiveMenuAnchors(activeMenu);
+    if (activeMenu) _enableActiveMenuAnchors(activeMenu);
   }
 
   // Elements with tabindex = -1 are skipped when tabbing through focusable elements
@@ -149,7 +149,7 @@
     if ( e.target.nodeName === 'UL' ) return; // Don't toggle submenu if you click on the UL rather than an LI
     if ( !_.hasClass(e.target.parentNode, 'has-children') ) return; // Make sure there IS a submenu
     var submenu = e.target.parentNode.querySelector('ul');
-    var parentMenu = _.closest(e.target, 'ul');
+    var parentMenu = _.closest('ul', e.target);
     _openSubMenu(parentMenu, submenu);
   }
 
@@ -163,15 +163,15 @@
   function _closeSubMenuHandler(e) {
     if ( _.hasClass(e.target, 'menu-back') ) {
       e.preventDefault();
-      var nearestUl = _.closest(e.target, 'ul');
+      var nearestUl = _.closest('ul', e.target);
       _closeSubMenu(nearestUl);
     }
   }
 
   function _closeSubMenu(menu) {
-    var parentMenu = _.closest(menu, 'ul.move-out');
+    var parentMenu = _.closest('ul.move-out', menu);
+    if (parentMenu) _showParentMenu(parentMenu);
     _moveOutSubMenu(menu);
-    _showParentMenu(parentMenu);
     _updateMenuAnchors();
   }
 
@@ -194,7 +194,7 @@
       if ( e.keyCode === 37 ) _closeSubMenu(options.menu.querySelector('.menu-active'));
       // Open the submenu if the currently focused element is associated w/a sub menu
       if ( e.keyCode === 39 && _.hasClass(e.target.parentNode, 'has-children') ) {
-        parentMenu = _.closest(e.target, 'ul');
+        parentMenu = _.closest('ul', e.target);
         subMenu = e.target.parentNode.querySelector('ul');
         _openSubMenu(parentMenu, subMenu);
       }
@@ -202,8 +202,8 @@
   }
 
   function _goToTabbableElement(direction) {
-    var tabbable = _.tabbable(options.menu);
     var index, modifier;
+    var tabbable = _.tabbable(options.menu);
     if (direction === 'next') modifier = 1;
     else if (direction === 'last') modifier = -1;
     else throw new Error('Direction for _goToTabbableElement must be \'next\' or \'last\'.');
