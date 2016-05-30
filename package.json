@@ -3,25 +3,19 @@
   "version": "1.0.1",
   "description": "A nested navigation module",
   "main": "dist/menu.js",
-  "watch": {
-    "browserify": "src/js/*.js"
-  },
   "scripts": {
-    "watch": "npm-watch",
     "pretest": "jshint --reporter=node_modules/jshint-stylish src/**/*.js",
     "test": "karma start",
     "watch:sass": "node-sass -w src/scss/styles.scss example/menu.css",
-    "build:sass": "node-sass --output-style compressed src/scss/styles.scss example/menu.css",
+    "build:sass": "node-sass --output-style compressed src/scss/styles.scss dist/menu.css",
+    "watchify": "watchify src/js/index.js -dv -o example/bundle.js",
     "browserify": "browserify src/js/menu.js --standalone Menu | derequire | uglifyjs -mc > dist/menu.js",
-    "postbrowserify": "ncp dist/menu.js example/js/menu.js && npm run browserify:example",
-    "browserify:example": "browserify example/js/index.js -o example/bundle.js",
-    "serve": "browser-sync start --server example --files 'example/**/*'",
+    "serve": "browser-sync start --server example --files 'example/*'",
     "mkdist": "node build/create-dist",
-    "prebuild": "npm run mkdist && npm run build:sass",
-    "build": "npm run browserify",
+    "build": "npm run mkdist && npm run build:sass && npm run browserify",
     "prestart": "npm run mkdist && npm run build:sass",
-    "start": "npm run watch & npm run watch:sass & npm run browserify & npm run serve",
-    "inspect": "browserify --full-paths example/js/index.js | uglifyjs -mc | Discify --open",
+    "start": "npm run watch:sass & npm run watchify & npm run serve",
+    "inspect": "browserify --full-paths src/js/index.js | uglifyjs -mc | Discify --open",
     "publish:demo": "npm run build && gh-pages -d example"
   },
   "repository": {
@@ -40,6 +34,7 @@
   },
   "homepage": "https://github.com/USFWS/navigation#readme",
   "devDependencies": {
+    "beefy": "^2.1.6",
     "browser-sync": "^2.11.1",
     "browserify": "^13.0.0",
     "chai": "^3.5.0",
@@ -59,6 +54,7 @@
     "mocha": "^2.4.5",
     "ncp": "^2.0.0",
     "node-sass": "^3.7.0",
+    "npm-watch": "^0.1.4",
     "uglifyjs": "^2.4.10",
     "watchify": "^3.7.0"
   },
@@ -66,7 +62,7 @@
     "is-dom": "^1.0.5",
     "lodash.defaults": "^4.0.1",
     "lodash.foreach": "^4.1.1",
-    "parent-node-selector": "^0.1.1",
+    "select-parent": "^1.0.1",
     "tabbable": "^1.0.0"
   }
 }

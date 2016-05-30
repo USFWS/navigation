@@ -4,7 +4,7 @@
   var _ = {
     defaults: require('lodash.defaults'),
     each: require('lodash.foreach'),
-    closest: require('parent-node-selector'),
+    closest: require('select-parent'),
     isDom: require('is-dom'),
     tabbable: require('tabbable'),
     find: find,
