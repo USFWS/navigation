@@ -3,5 +3,7 @@
 
   var menu = require('./menu');
 
-  menu.init();
+  menu.init({
+    position: 'left'
+  });
 })();
