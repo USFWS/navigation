@@ -34,7 +34,6 @@
   },
   "homepage": "https://github.com/USFWS/navigation#readme",
   "devDependencies": {
-    "beefy": "^2.1.6",
     "browser-sync": "^2.11.1",
     "browserify": "^13.0.0",
     "chai": "^3.5.0",
@@ -52,7 +51,6 @@
     "karma-safari-launcher": "^0.1.1",
     "mkdirp": "^0.5.1",
     "mocha": "^2.4.5",
-    "ncp": "^2.0.0",
     "node-sass": "^3.7.0",
     "npm-watch": "^0.1.4",
     "uglifyjs": "^2.4.10",
