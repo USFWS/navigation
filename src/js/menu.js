@@ -204,7 +204,6 @@
   function _goToTabbableElement(direction) {
     var index, modifier;
     var tabbable = _.tabbable(options.menu);
-    console.log(tabbable);
     if (direction === 'next') modifier = 1;
     else if (direction === 'last') modifier = -1;
     else throw new Error('Direction for _goToTabbableElement must be \'next\' or \'last\'.');
