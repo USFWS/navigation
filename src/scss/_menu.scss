@@ -104,6 +104,24 @@
   }
 }
 
+.menu-back {
+  background: $teal;
+  border: none;
+  color: white;
+  display: block;
+  font-size: 16px;
+  height: 100%;
+  padding: 0 50px;
+  position: relative;
+  text-align: left;
+  top: -50px;
+  width: 100%;
+
+  &:focus {
+    background: lighten($teal, 10);
+  }
+}
+
 ul .back-block {
   display: none;
 
