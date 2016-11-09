@@ -68,9 +68,8 @@
   // Creates a list item to appear at the top of each submenu
   function _createBackListItem() {
     var li = _.create('li');
-    var a = _.create('a', 'menu-back', li);
-    a.innerHTML = 'Back';
-    a.setAttribute('href', '#back');
+    var btn = _.create('button', 'menu-back', li);
+    btn.innerHTML = 'Back';
     return li;
   }
 
@@ -92,7 +91,7 @@
 
   // Elements with tabindex = -1 are skipped when tabbing through focusable elements
   function _disableAllMenuAchors() {
-    var allAnchors = options.menu.querySelectorAll('a');
+    var allAnchors = options.menu.querySelectorAll('a, button.menu-back');
     _.each(allAnchors, function (link) {
       link.setAttribute('tabindex', -1);
     });
