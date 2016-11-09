@@ -170,6 +170,7 @@
   function _closeSubMenu(menu) {
     var parentMenu = _.closest('ul.move-out', menu);
     if (parentMenu) _showParentMenu(parentMenu);
+    else return;
     _moveOutSubMenu(menu);
     _updateMenuAnchors();
   }
