@@ -35,7 +35,7 @@
     document.body.addEventListener('keyup', _keyHandler);
     options.menu.addEventListener('click', _openSubMenuHandler);
     options.menu.addEventListener('click', _closeSubMenuHandler);
-    options.close.addEventListener('click', hide);
+    options.close.addEventListener('click', toggle);
   }
 
   function destroy() {
@@ -43,10 +43,11 @@
     document.body.removeEventListener('keyup', _keyHandler);
     options.menu.removeEventListener('click', _openSubMenuHandler);
     options.menu.removeEventListener('click', _closeSubMenuHandler);
-    options.close.removeEventListener('click', hide);
+    options.close.removeEventListener('click', toggle);
   }
 
   function _processSubMenus() {
+    var tabbable;
     var menu = options.menu.querySelector('ul');
     var submenus = menu.querySelectorAll('ul');
     _.each(submenus, function (submenu) {
@@ -56,6 +57,10 @@
       _.addClass(submenu, options.subMenuClass + ' menu-hidden');
       _addBackListItem(submenu);
     });
+    setTimeout(function() {
+      tabbable = _findActiveMenuAnchors(menu);
+      tabbable[0].focus();
+    }, 400);
   }
 
   // Back block is a list item that overlaps the sliver of the visible parent menu
@@ -84,14 +89,14 @@
 
   // Disable all anchors with tabindex = -1, then re-enable only the current menu's anchors
   function _updateMenuAnchors() {
-    var activeMenu = options.menu.querySelector('.menu-active');
+    var activeMenu = options.menu.querySelector('.menu-active') || options.menu.querySelector('.fws-menu-content');
     _disableAllMenuAchors();
     if (activeMenu) _enableActiveMenuAnchors(activeMenu);
   }
 
   // Elements with tabindex = -1 are skipped when tabbing through focusable elements
   function _disableAllMenuAchors() {
-    var allAnchors = options.menu.querySelectorAll('a, button.menu-back');
+    var allAnchors = options.menu.querySelectorAll('a, button');
     _.each(allAnchors, function (link) {
       link.setAttribute('tabindex', -1);
     });
@@ -125,23 +130,24 @@
   }
 
   // Bring the parent menu back into view
-  function _showParentMenu(el) {
-    _.removeClass(el, 'move-out');
-    _.addClass(el, 'menu-active');
-    el.querySelector('a').focus();
+  function _showParentMenu(menu) {
+    var tabbable = _findActiveMenuAnchors(menu);
+    _.removeClass(menu, 'move-out');
+    _.addClass(menu, 'menu-active');
+    tabbable[0].focus();
   }
 
   // Move the submenu out of view
-  function _moveOutSubMenu(el) {
-    _.addClass(el, 'menu-hidden');
-    _.removeClass(el, 'menu-active');
+  function _moveOutSubMenu(menu) {
+    _.addClass(menu, 'menu-hidden');
+    _.removeClass(menu, 'menu-active');
   }
 
   // Move the submenu into view
-  function _showSubMenu(el) {
-    _.addClass(el, 'menu-active');
-    _.removeClass(el, 'menu-hidden');
-    el.querySelector('a').focus();
+  function _showSubMenu(menu) {
+    _.addClass(menu, 'menu-active');
+    _.removeClass(menu, 'menu-hidden');
+    menu.querySelector('.menu-back').focus();
   }
 
   function _openSubMenuHandler(e) {
@@ -204,6 +210,9 @@
   function _goToTabbableElement(direction) {
     var index, modifier;
     var tabbable = _.tabbable(options.menu);
+    tabbable = _.filter(tabbable, function(element) {
+      return !element.getAttribute('type');
+    });
     if (direction === 'next') modifier = 1;
     else if (direction === 'last') modifier = -1;
     else throw new Error('Direction for _goToTabbableElement must be \'next\' or \'last\'.');
@@ -241,17 +250,14 @@
 
   function show() {
     options.active = true;
-    var content = options.menu.querySelector('.' + options.rootUlClass);
-    _.addClass(options.menu, options.activeClass);
-    _.addClass(content, 'menu-active');
+    _.addClass(options.menu, 'fws-menu-active');
     _updateMenuAnchors();
   }
 
   function hide() {
+    console.log('Hide the menu!');
     options.active = false;
-    var content = options.menu.querySelector('.' + options.rootUlClass);
-    _.removeClass(options.menu, options.activeClass);
-    _.removeClass(content, 'menu-active');
+    _.removeClass(options.menu, 'fws-menu-active');
     _closeAllSubMenus();
   }
 
