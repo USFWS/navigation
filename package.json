@@ -59,6 +59,7 @@
   "dependencies": {
     "is-dom": "^1.0.5",
     "lodash.defaults": "^4.2.0",
+    "lodash.filter": "^4.6.0",
     "lodash.foreach": "^4.5.0",
     "select-parent": "^1.0.1",
     "tabbable": "^1.0.4"
