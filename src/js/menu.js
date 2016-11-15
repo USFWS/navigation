@@ -230,7 +230,6 @@
   }
 
   function _toggleMenu(e) {
-    console.log(e);
     if ( _.hasClass(e.target, options.toggleClass) ) toggle();
   }
 
