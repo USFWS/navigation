@@ -247,7 +247,6 @@
   }
 
   function show() {
-    console.log("Show the menu!");
     options.active = true;
     _.addClass(options.menu, 'fws-menu-active');
     _updateMenuAnchors();
