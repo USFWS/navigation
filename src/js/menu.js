@@ -35,7 +35,7 @@
     document.body.addEventListener('keyup', _keyHandler);
     options.menu.addEventListener('click', _openSubMenuHandler);
     options.menu.addEventListener('click', _closeSubMenuHandler);
-    options.close.addEventListener('click', toggle);
+    options.close.addEventListener('click', hide);
   }
 
   function destroy() {
@@ -43,7 +43,7 @@
     document.body.removeEventListener('keyup', _keyHandler);
     options.menu.removeEventListener('click', _openSubMenuHandler);
     options.menu.removeEventListener('click', _closeSubMenuHandler);
-    options.close.removeEventListener('click', toggle);
+    options.close.removeEventListener('click', hide);
   }
 
   function _processSubMenus() {
@@ -57,10 +57,6 @@
       _.addClass(submenu, options.subMenuClass + ' menu-hidden');
       _addBackListItem(submenu);
     });
-    setTimeout(function() {
-      tabbable = _findActiveMenuAnchors(menu);
-      tabbable[0].focus();
-    }, 400);
   }
 
   // Back block is a list item that overlaps the sliver of the visible parent menu
@@ -210,6 +206,7 @@
   function _goToTabbableElement(direction) {
     var index, modifier;
     var tabbable = _.tabbable(options.menu);
+    // Don't include inputs (we have a text input with type=search)
     tabbable = _.filter(tabbable, function(element) {
       return !element.getAttribute('type');
     });
@@ -226,12 +223,14 @@
       if ( document.activeElement === el ) index = i + modifier;
     });
 
-    if (index === -1) index = 0; // Don't go further than the first element
+    if (index === -1 || !index) index = 0; // Don't go further than the first element
     else if (index === tabbable.length) index = index -1; // Don't go further than the last element
+
     tabbable[index].focus();
   }
 
   function _toggleMenu(e) {
+    console.log(e);
     if ( _.hasClass(e.target, options.toggleClass) ) toggle();
   }
 
@@ -249,13 +248,14 @@
   }
 
   function show() {
+    console.log("Show the menu!");
     options.active = true;
     _.addClass(options.menu, 'fws-menu-active');
     _updateMenuAnchors();
   }
 
-  function hide() {
-    console.log('Hide the menu!');
+  function hide(e) {
+    if (e) e.stopPropagation();
     options.active = false;
     _.removeClass(options.menu, 'fws-menu-active');
     _closeAllSubMenus();
