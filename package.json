@@ -1,6 +1,6 @@
 {
   "name": "fws-navigation",
-  "version": "1.4.0",
+  "version": "1.4.1",
   "description": "A nested navigation module",
   "main": "dist/menu.js",
   "scripts": {
